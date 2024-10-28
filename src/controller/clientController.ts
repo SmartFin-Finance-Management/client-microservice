@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
-import Client, { IClient } from '../models/clientModel';
-import axios from 'axios';
+import clientService from '../service/clientService';
 
 // Add a new client
 export const addClient = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { org_id, name, contact_info } = req.body;
-        const newClient = new Client({ org_id, name, contact_info });
-        await newClient.save();
+        const newClient = await clientService.addClient(req.body);
         res.status(201).json(newClient);
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -21,7 +18,7 @@ export const addClient = async (req: Request, res: Response): Promise<void> => {
 // Get details of a client by ID
 export const getClientDetails = async (req: Request, res: Response): Promise<void> => {
     try {
-        const client = await Client.findById(req.params.id);
+        const client = await clientService.getClientById(req.params.id);
         if (!client) {
             res.status(404).json({ message: 'Client not found' });
             return;
@@ -38,15 +35,13 @@ export const getClientDetails = async (req: Request, res: Response): Promise<voi
 
 // Update contact information of a client
 export const updateClient = async (req: Request, res: Response): Promise<void> => {
-    const clientId = req.params.id;
-
     try {
-        const updatedClient = await Client.findByIdAndUpdate(clientId, req.body, { new: true });
+        const updatedClient = await clientService.updateClient(req.params.id, req.body);
         if (!updatedClient) {
             res.status(404).json({ message: 'Client not found' });
             return;
         }
-        res.status(200).json(updatedClient); // Return the updated client in the response body
+        res.status(200).json(updatedClient);
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({ message: error.message });
@@ -59,7 +54,7 @@ export const updateClient = async (req: Request, res: Response): Promise<void> =
 // Delete a client by ID
 export const deleteClient = async (req: Request, res: Response): Promise<void> => {
     try {
-        const deletedClient = await Client.findByIdAndDelete(req.params.id);
+        const deletedClient = await clientService.deleteClient(req.params.id);
         if (!deletedClient) {
             res.status(404).json({ message: 'Client not found' });
             return;
@@ -76,8 +71,8 @@ export const deleteClient = async (req: Request, res: Response): Promise<void> =
 
 export const getAllClients = async (req: Request, res: Response): Promise<void> => {
     try {
-        const clients = await Client.find(); // Fetch all clients from the database
-        res.status(200).json(clients); // Return clients
+        const clients = await clientService.getAllClients();
+        res.status(200).json(clients);
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({ message: error.message });
@@ -91,7 +86,7 @@ export const getClientsByOrg = async (req: Request, res: Response): Promise<void
     const orgId = req.params.org_id;
 
     try {
-        const clients = await Client.find({ org_id: orgId }); // Fetch clients by organization ID
+        const clients = await clientService.getClientsByOrg(orgId);
         res.status(200).json(clients);
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -107,9 +102,8 @@ export const getProjectsByClient = async (req: Request, res: Response): Promise<
     const clientId = req.params.client_id;
 
     try {
-        // Assuming your project microservice is running at this URL
-        const response = await axios.get(`http://localhost/api/projects/client/${clientId}`);
-        res.status(200).json(response.data); // Return the projects fetched from the microservice
+        const projects = await clientService.getProjectsByClient(clientId);
+        res.status(200).json(projects);
     } catch (error: unknown) {
         if (error instanceof Error) {
             res.status(500).json({ message: error.message });
@@ -118,3 +112,4 @@ export const getProjectsByClient = async (req: Request, res: Response): Promise<
         }
     }
 };
+
