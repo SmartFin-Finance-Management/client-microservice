@@ -26,7 +26,7 @@ router.put('/:id', updateClient);
 // Route to delete a client by ID
 router.delete('/:id', deleteClient);
 
-router.get('/org/:org_id', getClientsByOrg); // New route to get clients by org ID
+router.get('/orgs/:org_id', getClientsByOrg); // New route to get clients by org ID
 
 // Route to get all projects for a specific client
 router.get('/:client_id/projects', getProjectsByClient); // New route for fetching projects by client ID
