@@ -29,7 +29,7 @@ router.delete('/:id', deleteClient);
 router.get('/orgs/:org_id', getClientsByOrg); // New route to get clients by org ID
 
 // Route to get all projects for a specific client
-router.get('/:client_id/projects', getProjectsByClient); // New route for fetching projects by client ID
+router.get('/projects/:client_id', getProjectsByClient); // New route for fetching projects by client ID
 
 export default router;
 
