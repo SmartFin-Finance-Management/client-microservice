@@ -10,15 +10,15 @@ class ClientService {
     }
 
     async getClientById(id: string): Promise<IClient | null> {
-        return await Client.findById(id);
+        return await Client.findOne({clientId: id});
     }
 
     async updateClient(id: string, data: Partial<IClient>): Promise<IClient | null> {
-        return await Client.findByIdAndUpdate(id, data, { new: true });
+        return await Client.findOneAndUpdate({clientId:id}, data, { new: true });
     }
 
     async deleteClient(id: string): Promise<IClient | null> {
-        return await Client.findByIdAndDelete(id);
+        return await Client.findOneAndDelete({clientId:id});
     }
 
     async getAllClients(): Promise<IClient[]> {

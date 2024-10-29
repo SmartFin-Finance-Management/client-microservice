@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 // Define routes
-app.use('/api/clients', clientRoutes);
+app.use('/clients', clientRoutes);
 
 // Optionally, add a default route for health checks
 app.get('/', (req, res) => {
