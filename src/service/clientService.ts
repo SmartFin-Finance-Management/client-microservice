@@ -1,6 +1,7 @@
 import Client, { IClient } from '../models/clientModel';
 import axios from 'axios';
 
+
 /*const PROJECT_MICROSERVICE_URL = 'http://localhost/api/projects';*/
 
 class ClientService {
@@ -34,5 +35,21 @@ class ClientService {
         return response.data;
     }
 }
+
+export const getMaxClientId = async (): Promise<number> => {
+    try {
+      // Fetch the client with the maximum client_id
+      const maxClient = await Client.findOne({}, { clientId: 1 }) // Retrieve only the client_id field
+        .sort({ clientId: -1 }) // Sort in descending order to get the max id
+        .limit(1); // Limit to 1 result
+  
+      // Return max client_id or 0 if not found
+      return maxClient ? maxClient.clientId : 0;
+      console.log(maxClient)
+    } catch (error) {
+      console.error(`Error fetching max client_id: ${error}`);
+      throw new Error(`Error fetching maximum client_id: ${error}`);
+    }
+  };
 
 export default new ClientService();

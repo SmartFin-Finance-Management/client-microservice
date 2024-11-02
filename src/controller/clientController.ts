@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import clientService from '../service/clientService';
+import { getMaxClientId } from '../service/clientService';
 
 // Add a new client
 export const addClient = async (req: Request, res: Response): Promise<void> => {
@@ -113,3 +114,20 @@ export const getProjectsByClient = async (req: Request, res: Response): Promise<
     }
 };
 
+
+export const getMaxClientIdController = async (req: Request, res: Response) => {
+    console.log("Fetching max client ID");
+  
+    try {
+      const maxId = await getMaxClientId(); // Call the service to get the max client ID
+  
+      // Send back the max client_id as a JSON response
+      res.status(200).json({ max_client_id: maxId });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: 'An unknown error occurred.' });
+        }
+    }
+  };

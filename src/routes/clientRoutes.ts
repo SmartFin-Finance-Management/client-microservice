@@ -6,8 +6,10 @@ import {
     updateClient, 
     deleteClient,
     getClientsByOrg,
-    getProjectsByClient 
+    getProjectsByClient ,
+    getMaxClientIdController
 } from '../controller/clientController';  // Adjust the import path as necessary
+import { getMaxClientId } from '../service/clientService';
 
 const router = Router();
 
@@ -30,6 +32,8 @@ router.get('/orgs/:org_id', getClientsByOrg); // New route to get clients by org
 
 // Route to get all projects for a specific client
 router.get('/projects/:client_id', getProjectsByClient); // New route for fetching projects by client ID
+
+ router.get('/clientId/max',getMaxClientIdController); // New route for fetching
 
 export default router;
 
