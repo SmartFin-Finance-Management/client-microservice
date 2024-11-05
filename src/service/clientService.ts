@@ -36,6 +36,7 @@ class ClientService {
     }
 }
 
+
 export const getMaxClientId = async (): Promise<number> => {
     try {
       // Fetch the client with the maximum client_id
