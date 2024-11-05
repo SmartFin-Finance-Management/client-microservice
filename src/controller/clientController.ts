@@ -84,7 +84,7 @@ export const getAllClients = async (req: Request, res: Response): Promise<void> 
 };
 
 export const getClientsByOrg = async (req: Request, res: Response): Promise<void> => {
-    const orgId = req.params.org_id;
+    const orgId = parseInt(req.params.org_id,10);
 
     try {
         const clients = await clientService.getClientsByOrg(orgId);
