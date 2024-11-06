@@ -30,7 +30,7 @@ class ClientService {
         return await Client.find({ orgId: orgId });
     }
 
-    async getProjectsByClient(clientId: string): Promise<any> {
+    async getProjectsByClient(clientId: number): Promise<any> {
         const response = await axios.get(`http://localhost:4000/api/projects/client/${clientId}`);
         return response.data;
     }

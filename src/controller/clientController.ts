@@ -100,7 +100,7 @@ export const getClientsByOrg = async (req: Request, res: Response): Promise<void
 
 // Retrieve all projects for a specific client
 export const getProjectsByClient = async (req: Request, res: Response): Promise<void> => {
-    const clientId = req.params.client_id;
+    const clientId = parseInt(req.params.client_id,10);
 
     try {
         const projects = await clientService.getProjectsByClient(clientId);
